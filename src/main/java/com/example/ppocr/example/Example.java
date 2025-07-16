@@ -1,39 +1,69 @@
 package com.example.ppocr.example;
 
-import com.example.ppocr.OCRDebugHelper;
 import com.example.ppocr.OCRException;
 import com.example.ppocr.OCRResult;
 import com.example.ppocr.PaddleOCR;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 public class Example {
     public static void main(String[] args) {
         // 检查命令行参数
         if (args.length < 1) {
-            System.out.println("Usage: java Example <image_path> [--debug]");
+            System.out.println("Usage: java Example <image_path> [config_file]");
             System.exit(1);
         }
 
         String imagePath = args[0];
-        boolean debug = args.length > 1 && args[1].equals("--debug");
-        String outputDir = "/Users/xiebaiyuan/Downloads/output/ocr_output";
+        String configFile = args.length > 1 ? args[1] : null;
+
+        // 默认配置
+        String pythonPath = "python";
+        String outputDir = System.getProperty("user.home") + "/paddleocr_output";
+        boolean debug = false;
+        boolean useGpu = false;
+        String language = "ch";
+        int timeout = 60;
+
+        // 如果提供了配置文件，则从配置文件中加载设置
+        if (configFile != null) {
+            Properties props = new Properties();
+            try (FileInputStream fis = new FileInputStream(configFile)) {
+                props.load(fis);
+
+                pythonPath = props.getProperty("pythonPath", pythonPath);
+                outputDir = props.getProperty("outputDir", outputDir);
+                debug = Boolean.parseBoolean(props.getProperty("debug", "false"));
+                useGpu = Boolean.parseBoolean(props.getProperty("useGpu", "false"));
+                language = props.getProperty("language", language);
+                timeout = Integer.parseInt(props.getProperty("timeout", "60"));
+
+            } catch (IOException e) {
+                System.err.println("无法读取配置文件: " + e.getMessage());
+                System.err.println("将使用默认配置");
+            }
+        }
 
         // 确保输出目录存在
         new File(outputDir).mkdirs();
 
         System.out.println("开始处理图片: " + imagePath);
         System.out.println("结果将保存在: " + outputDir);
+        System.out.println("使用Python路径: " + pythonPath);
 
         try {
             // 创建PaddleOCR实例并配置
             PaddleOCR paddleOCR = new PaddleOCR()
-                    .withLanguage("ch")      // 设置为中文识别
-                    .withTimeout(120)        // 设置超时时间为120秒，考虑到首次运行时需要下载模型
-                    .withDebug(debug)        // 设置调试模式
-                    .withGpu(false)          // 使用CPU模式
-                    .withOutputDir(outputDir); // 设置输出目录
+                    .withPythonPath(pythonPath)       // 设置Python路径
+                    .withLanguage(language)           // 设置语言
+                    .withTimeout(timeout)             // 设置超时时间
+                    .withDebug(debug)                 // 设置调试模式
+                    .withGpu(useGpu)                  // 设置GPU使用
+                    .withOutputDir(outputDir);        // 设置输出目录
 
             // 输出将要执行的命令
             System.out.println("执行命令: " + paddleOCR.getCommandString(imagePath));

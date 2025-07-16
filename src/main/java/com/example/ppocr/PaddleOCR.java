@@ -17,13 +17,17 @@ import java.util.concurrent.TimeUnit;
  * Java wrapper for PaddleOCR CLI tool
  */
 public class PaddleOCR {
-    private String pythonPath = "/Users/xiebaiyuan/miniforge3/envs/ppocr/bin/python";
+    // 默认配置
+    private String pythonPath = "python";
     private String paddleOcrScript = "paddleocr";
-    private int timeoutSeconds = 30;
+    private int timeoutSeconds = 60;
     private boolean useGpu = false;
     private String language = "ch";
     private boolean debug = false;
-    private String outputDir = "/Users/xiebaiyuan/Downloads/output/ocr_output";
+    private String outputDir = System.getProperty("user.home") + "/paddleocr_output";
+    private boolean useDocOrientationClassify = false;
+    private boolean useDocUnwarping = false;
+    private boolean useTextlineOrientation = false;
 
     /**
      * Constructor with default settings
@@ -85,6 +89,30 @@ public class PaddleOCR {
      */
     public PaddleOCR withOutputDir(String outputDir) {
         this.outputDir = outputDir;
+        return this;
+    }
+
+    /**
+     * Enable or disable document orientation classification
+     */
+    public PaddleOCR withDocOrientationClassify(boolean useDocOrientationClassify) {
+        this.useDocOrientationClassify = useDocOrientationClassify;
+        return this;
+    }
+
+    /**
+     * Enable or disable document unwarping
+     */
+    public PaddleOCR withDocUnwarping(boolean useDocUnwarping) {
+        this.useDocUnwarping = useDocUnwarping;
+        return this;
+    }
+
+    /**
+     * Enable or disable textline orientation
+     */
+    public PaddleOCR withTextlineOrientation(boolean useTextlineOrientation) {
+        this.useTextlineOrientation = useTextlineOrientation;
         return this;
     }
 
@@ -182,19 +210,23 @@ public class PaddleOCR {
         command.add("-i");
         command.add(imagePath);
 
-        // 添加文档方向识别参数，每个参数都需要单独添加
+        // 添加文档方向识别参数
         command.add("--use_doc_orientation_classify");
-        command.add("False");
+        command.add(useDocOrientationClassify ? "True" : "False");
 
         command.add("--use_doc_unwarping");
-        command.add("False");
+        command.add(useDocUnwarping ? "True" : "False");
 
         command.add("--use_textline_orientation");
-        command.add("False");
+        command.add(useTextlineOrientation ? "True" : "False");
 
         // 保存路径
         command.add("--save_path");
         command.add(outputDir);
+
+        // 添加语言参数
+        command.add("--lang");
+        command.add(language);
 
         // 添加GPU参数（如果启用）
         if (useGpu) {
