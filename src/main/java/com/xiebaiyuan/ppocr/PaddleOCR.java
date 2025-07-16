@@ -28,6 +28,8 @@ public class PaddleOCR {
     private boolean useDocOrientationClassify = false;
     private boolean useDocUnwarping = false;
     private boolean useTextlineOrientation = false;
+    private String textDetLimitType = "min";
+    private int textDetLimitSideLen = 736;
 
     /**
      * Constructor with default settings
@@ -113,6 +115,16 @@ public class PaddleOCR {
      */
     public PaddleOCR withTextlineOrientation(boolean useTextlineOrientation) {
         this.useTextlineOrientation = useTextlineOrientation;
+        return this;
+    }
+
+    public PaddleOCR withTextDetLimitType(String textDetLimitType) {
+        this.textDetLimitType = textDetLimitType;
+        return this;
+    }
+
+    public PaddleOCR withTextDetLimitSideLen(int textDetLimitSideLen) {
+        this.textDetLimitSideLen = textDetLimitSideLen;
         return this;
     }
 
@@ -236,6 +248,13 @@ public class PaddleOCR {
             command.add("--device");
             command.add("cpu");
         }
+
+        // 添加text_det_limit_type和text_det_limit_side_len参数
+        command.add("--text_det_limit_type");
+        command.add(textDetLimitType);
+
+        command.add("--text_det_limit_side_len");
+        command.add(String.valueOf(textDetLimitSideLen));
 
         return command;
     }

@@ -29,6 +29,8 @@ public class Example {
         boolean useGpu = false;
         String language = "ch";
         int timeout = 60;
+        String textDetLimitType = "min";
+        int textDetLimitSideLen = 736;
 
         // 如果提供了配置文件，则从配置文件中加载设置
         if (configFile != null) {
@@ -42,7 +44,8 @@ public class Example {
                 useGpu = Boolean.parseBoolean(props.getProperty("useGpu", "false"));
                 language = props.getProperty("language", language);
                 timeout = Integer.parseInt(props.getProperty("timeout", "60"));
-
+                textDetLimitType = props.getProperty("textDetLimitType", textDetLimitType);
+                textDetLimitSideLen = Integer.parseInt(props.getProperty("textDetLimitSideLen", String.valueOf(textDetLimitSideLen)));
             } catch (IOException e) {
                 System.err.println("无法读取配置文件: " + e.getMessage());
                 System.err.println("将使用默认配置");
@@ -64,7 +67,9 @@ public class Example {
                     .withTimeout(timeout)             // 设置超时时间
                     .withDebug(debug)                 // 设置调试模式
                     .withGpu(useGpu)                  // 设置GPU使用
-                    .withOutputDir(outputDir);        // 设置输出目录
+                    .withOutputDir(outputDir)         // 设置输出目录
+                    .withTextDetLimitType(textDetLimitType) // 新增
+                    .withTextDetLimitSideLen(textDetLimitSideLen); // 新增
 
             // 输出将要执行的命令
             System.out.println("执行命令: " + paddleOCR.getCommandString(imagePath));
