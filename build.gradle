@@ -3,7 +3,7 @@ plugins {
     id 'application'
 }
 
-group = 'com.example'
+group = 'com.xiebaiyuan'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -17,7 +17,7 @@ dependencies {
 }
 
 application {
-    mainClass = 'com.example.ppocr.example.Example'
+    mainClass = 'com.xiebaiyuan.ppocr.example.Example'
 }
 
 test {
@@ -27,7 +27,7 @@ test {
 // 创建一个可执行JAR文件
 jar {
     manifest {
-        attributes 'Main-Class': 'com.example.ppocr.example.Example'
+        attributes 'Main-Class': 'com.xiebaiyuan.ppocr.example.Example'
     }
 
     // 将依赖打包到JAR文件中

@@ -1,8 +1,8 @@
-package com.example.ppocr.example;
+package com.xiebaiyuan.ppocr.example;
 
-import com.example.ppocr.OCRException;
-import com.example.ppocr.OCRResult;
-import com.example.ppocr.PaddleOCR;
+import com.xiebaiyuan.ppocr.OCRException;
+import com.xiebaiyuan.ppocr.OCRResult;
+import com.xiebaiyuan.ppocr.PaddleOCR;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +15,7 @@ public class Example {
         // 检查命令行参数
         if (args.length < 1) {
             System.out.println("Usage: java Example <image_path> [config_file]");
+            System.out.println("Example: java Example /path/to/image.jpg /path/to/config.properties");
             System.exit(1);
         }
 

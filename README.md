@@ -25,9 +25,9 @@ paddleocr ocr -i /Users/xiebaiyuan/Downloads/11.jpg  --use_doc_orientation_class
 ### 基本用法
 
 ```java
-import com.example.ppocr.OCRException;
-import com.example.ppocr.OCRResult;
-import com.example.ppocr.PaddleOCR;
+import com.xiebaiyuan.ppocr.OCRException;
+import com.xiebaiyuan.ppocr.OCRResult;
+import com.xiebaiyuan.ppocr.PaddleOCR;
 
 import java.util.List;
 

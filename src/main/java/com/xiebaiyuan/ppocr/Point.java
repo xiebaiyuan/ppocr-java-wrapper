@@ -1,4 +1,4 @@
-package com.example.ppocr;
+package com.xiebaiyuan.ppocr;
 
 /**
  * Represents a 2D point
@@ -25,4 +25,3 @@ public class Point {
         return "(" + x + ", " + y + ")";
     }
 }
-

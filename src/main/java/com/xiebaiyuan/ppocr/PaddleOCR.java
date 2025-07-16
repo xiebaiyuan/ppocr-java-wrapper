@@ -1,4 +1,4 @@
-package com.example.ppocr;
+package com.xiebaiyuan.ppocr;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.example.ppocr;
+package com.xiebaiyuan.ppocr;
 
 import java.util.List;
 
@@ -36,4 +36,3 @@ public class OCRResult {
                '}';
     }
 }
-

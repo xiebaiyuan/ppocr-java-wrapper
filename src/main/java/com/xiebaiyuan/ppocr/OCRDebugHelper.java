@@ -1,4 +1,4 @@
-package com.example.ppocr;
+package com.xiebaiyuan.ppocr;
 
 import java.io.BufferedReader;
 import java.io.IOException;

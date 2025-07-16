@@ -1,4 +1,4 @@
-package com.example.ppocr;
+package com.xiebaiyuan.ppocr;
 
 /**
  * Exception thrown when OCR operations fail
@@ -12,4 +12,3 @@ public class OCRException extends Exception {
         super(message, cause);
     }
 }
-
