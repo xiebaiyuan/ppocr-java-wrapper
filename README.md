@@ -20,8 +20,7 @@
 
 ```bash
 # 测试PaddleOCR命令行
-python -m paddleocr ocr -i /path/to/image.jpg --lang ch
-```
+paddleocr ocr -i /Users/xiebaiyuan/Downloads/11.jpg  --use_doc_orientation_classify False --use_doc_unwarping False --use_textline_orientation False --device cpu```
 
 ### 基本用法
 
@@ -60,7 +59,6 @@ public class Demo {
 PaddleOCR paddleOCR = new PaddleOCR()
     .withPythonPath("/path/to/python")      // 指定Python解释器路径
     .withPaddleOcrScript("paddleocr")       // 指定PaddleOCR脚本
-    .withLanguage("en")                     // 设置识别语言（默认为"ch"中文）
     .withTimeout(120)                       // 设置超时时间（秒）
     .withOutputDir("/path/to/output")       // 设置输出目录
     .withGpu(true)                          // 启用GPU加速
