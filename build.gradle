@@ -1,0 +1,58 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.json:json:20230227'  // 添加JSON库依赖
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+application {
+    mainClass = 'com.example.ppocr.example.Example'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// 创建一个可执行JAR文件
+jar {
+    manifest {
+        attributes 'Main-Class': 'com.example.ppocr.example.Example'
+    }
+
+    // 将依赖打包到JAR文件中
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    // 解决重复文件冲突
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+// 创建可分发的ZIP和TAR包
+distributions {
+    main {
+        contents {
+            from {
+                // 包含README和示例文件
+                'README.md'
+            }
+        }
+    }
+}
+
+// 添加以下任务来确保依赖下载正确
+task downloadDeps(type: Exec) {
+    workingDir '.'
+    commandLine 'gradle', '--refresh-dependencies', 'dependencies'
+}
